@@ -7,25 +7,19 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Detect scroll and change navbar background
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 40);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Smooth scroll function
   const handleMenuItemClick = (sectionId) => {
     setActiveSection(sectionId);
     setIsOpen(false);
-
     const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
+    if (section) section.scrollIntoView({ behavior: "smooth" });
   };
 
   const menuItems = [
@@ -37,104 +31,96 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition duration-300 px-[7vw] md:px-[7vw] lg:px-[20vw] ${
-        isScrolled ? "bg-[#050414] bg-opacity-50 backdrop-blur-md shadow-md" : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-[#050414]/60 backdrop-blur-md shadow-md" : "bg-transparent"
+        } px-6 sm:px-[7vw] lg:px-[15vw]`}
     >
-      <div className="text-white py-5 flex justify-between items-center">
+      <div className="flex items-center justify-between py-4 text-white">
         {/* Logo */}
-        <div className="text-lg font-semibold cursor-pointer">
-          <span className="text-[#8245ec]">&lt;</span>
-          <span className="text-white">Avhradip</span>
-          <span className="text-[#8245ec]">/</span>
-          <span className="text-white">Ghosh</span>
-          <span className="text-[#8245ec]">&gt;</span>
+        <div className="text-xl font-extrabold tracking-wider text-white cursor-pointer">
+          <span className="text-purple-500">&lt;</span>Avhradip
+          <span className="text-purple-500">/&gt;</span>
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-8 text-gray-300">
+        <ul className="hidden md:flex space-x-8 font-medium text-sm">
           {menuItems.map((item) => (
             <li
               key={item.id}
-              className={`cursor-pointer hover:text-[#8245ec] ${
-                activeSection === item.id ? "text-[#8245ec]" : ""
-              }`}
+              className={`hover:text-purple-400 transition ${activeSection === item.id ? "text-purple-500 font-semibold" : "text-gray-300"
+                }`}
             >
-              <button onClick={() => handleMenuItemClick(item.id)}>
-                {item.label}
-              </button>
+              <button onClick={() => handleMenuItemClick(item.id)}>{item.label}</button>
             </li>
           ))}
         </ul>
 
-        {/* Social Icons */}
-        <div className="hidden md:flex space-x-4">
+        {/* Desktop Socials */}
+        <div className="hidden md:flex items-center space-x-4">
           <a
             href="https://github.com/avhradip"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-300 hover:text-[#8245ec]"
+            className="hover:text-purple-500 transition"
           >
-            <FaGithub size={24} />
+            <FaGithub size={22} />
           </a>
           <a
             href="https://www.linkedin.com/in/avhradip-dev/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-300 hover:text-[#8245ec]"
+            className="hover:text-purple-500 transition"
           >
-            <FaLinkedin size={24} />
+            <FaLinkedin size={22} />
           </a>
         </div>
 
-        {/* Mobile Menu Icon */}
+        {/* Mobile Icon */}
         <div className="md:hidden">
           {isOpen ? (
             <FiX
-              className="text-3xl text-[#8245ec] cursor-pointer"
+              className="text-3xl text-purple-500 cursor-pointer"
               onClick={() => setIsOpen(false)}
             />
           ) : (
             <FiMenu
-              className="text-3xl text-[#8245ec] cursor-pointer"
+              className="text-3xl text-purple-500 cursor-pointer"
               onClick={() => setIsOpen(true)}
             />
           )}
         </div>
       </div>
 
-      {/* Mobile Menu Items */}
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5 bg-[#050414] bg-opacity-50 backdrop-filter backdrop-blur-lg z-50 rounded-lg shadow-lg md:hidden">
-          <ul className="flex flex-col items-center space-y-4 py-4 text-gray-300">
+        <div className="md:hidden bg-[#0f0d23]/90 backdrop-blur-lg rounded-xl shadow-lg mx-2 py-6 px-4 text-center">
+          <ul className="space-y-4 text-gray-300 font-medium">
             {menuItems.map((item) => (
-              <li
-                key={item.id}
-                className={`cursor-pointer hover:text-white ${
-                  activeSection === item.id ? "text-[#8245ec]" : ""
-                }`}
-              >
-                <button onClick={() => handleMenuItemClick(item.id)}>
+              <li key={item.id}>
+                <button
+                  onClick={() => handleMenuItemClick(item.id)}
+                  className={`hover:text-white transition ${activeSection === item.id ? "text-purple-500 font-semibold" : ""
+                    }`}
+                >
                   {item.label}
                 </button>
               </li>
             ))}
-            <div className="flex space-x-4">
+            <div className="flex justify-center space-x-5 pt-4">
               <a
-                href="https://github.com/codingmastr"
+                href="https://github.com/avhradip"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-white"
+                className="hover:text-purple-500"
               >
-                <FaGithub size={24} />
+                <FaGithub size={22} />
               </a>
               <a
-                href="https://www.linkedin.com/in/tarun-kaushik-553b441a4"
+                href="https://www.linkedin.com/in/avhradip-dev/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-white"
+                className="hover:text-purple-500"
               >
-                <FaLinkedin size={24} />
+                <FaLinkedin size={22} />
               </a>
             </div>
           </ul>
